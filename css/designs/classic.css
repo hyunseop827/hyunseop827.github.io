@@ -391,11 +391,11 @@
 /* Short laptop windows: keep the whole profile column visible without inner scrolling. */
 @media (min-width: 961px) and (max-height: 720px) {
   :root[data-design="classic"] .sidebar { padding-top: 28px; padding-bottom: 20px; gap: 16px; }
-  :root[data-design="classic"] .sidebar .profile-photo { aspect-ratio: 1 / 1; }
+  :root[data-design="classic"] .sidebar .profile-photo { width: 128px; } /* smaller, not cropped to a square */
   :root[data-design="classic"] .sidebar .profile-meta { padding-top: 14px; }
 }
 @media (min-width: 961px) and (max-height: 620px) {
-  :root[data-design="classic"] .sidebar .profile-photo { width: 112px; aspect-ratio: 4 / 5; }
+  :root[data-design="classic"] .sidebar .profile-photo { width: 104px; }
 }
 /* Galleries: equal frames per row so captions line up; an odd last image spans the row. */
 :root[data-design="classic"] .gallery:not(.is-phones):not(.is-single) .shot button { flex: 1; display: flex; align-items: center; justify-content: center; }
