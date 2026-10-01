@@ -2,6 +2,7 @@
 // 디자인을 고른 뒤: design 값을 원하는 디자인으로 바꾸고 designPicker를 false로 두면 끝입니다.
 // After choosing: set `design` and turn `designPicker` off.
 window.SITE_CONFIG = {
+  siteUrl: 'https://hyunseop827.github.io/',  // set by tools/set-site-url.py
   // 'classic'   — A. 무난한 기본형 (Clean & neutral)
   // 'terminal'  — B. 개발자 특화형 (Developer / terminal)
   // 'editorial' — C. 에디토리얼형 (Editorial / magazine)

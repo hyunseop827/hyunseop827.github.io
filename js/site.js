@@ -538,8 +538,8 @@
     const resumePdf = (docs.find(d => d.files) || {}).files?.[lang === 'ko' ? 0 : 1];
     // subHtml must already be escaped by the caller. segs() keeps each " · " segment together so lines wrap only between segments.
     const segs = s => s.split(' · ').map(x => `<span class="nw">${esc(x)}</span>`).join(' · ');
-    // Project links in the printed PDF must work outside this site: absolute (canonical base once the site URL is set) and in the page language.
-    const base = document.querySelector('link[rel=canonical]')?.href || location.href;
+    // Project links in the printed PDF must work outside this site: absolute (SITE_CONFIG.siteUrl, set by tools/set-site-url.py) and in the page language.
+    const base = (window.SITE_CONFIG || {}).siteUrl || location.href;
     const rlink = h => { const u = new URL(h, base); u.searchParams.set('lang', lang); return u.href; };
     const entry = (title, subHtml, when, bullets = [], extra = '') => `<div class="r-entry"><h3>${esc(title)}</h3>${when ? `<span class="r-when">${esc(when)}</span>` : ''}${subHtml ? `<p class="r-sub">${subHtml}</p>` : ''}${bullets.length ? `<ul class="bullets">${bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}${extra}</div>`;
     const sec = (title, body) => body ? `<section class="r-section"><h2>${esc(title)}</h2>${body}</section>` : '';
