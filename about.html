@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 | 김현섭</title>
+<meta name="description" content="김현섭의 소개: 일하는 방식, 개발을 시작한 계기, 백엔드와 DevOps, 문서화, 앞으로의 방향, 어학·자격·장학.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1113" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hyunseop Kim">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="소개 · About | 김현섭 (Hyunseop Kim)">
+<meta property="og:description" content="김현섭의 소개: 일하는 방식, 개발을 시작한 계기, 백엔드와 DevOps, 문서화, 앞으로의 방향. About Hyunseop Kim: how he works, how he started, backend and DevOps, documentation and what comes next.">
+<meta property="og:image" content="https://hyunseop827.github.io/assets/og-card.jpg">
+<!-- site-url -->
+<meta property="og:url" content="https://hyunseop827.github.io/about.html">
+<link rel="canonical" href="https://hyunseop827.github.io/about.html">
+<link rel="alternate" hreflang="ko" href="https://hyunseop827.github.io/about.html">
+<link rel="alternate" hreflang="en" href="https://hyunseop827.github.io/about.html?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://hyunseop827.github.io/about.html">
+<!-- /site-url -->
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232a57c0'/%3E%3Ctext x='32' y='42' font-family='-apple-system,Segoe UI,sans-serif' font-size='28' font-weight='700' fill='white' text-anchor='middle'%3EHK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/designs/classic.css">
+<script src="js/config.js"></script>
+<script>
+  /* Apply design, theme and language before first paint (no flash).
+     URL overrides: ?design= &theme= &lang= */
+  (function () {
+    var d = document.documentElement, c = window.SITE_CONFIG || {}, q = {};
+    location.search.replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { try { q[k] = decodeURIComponent(v); } catch (e) { /* ignore malformed params */ } });
+    function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    var designs = { classic: 1, terminal: 1, editorial: 1 };
+    var design = q.design || (c.designPicker ? get('hk-design') : null) || c.design;
+    if (!designs[design]) design = 'classic';
+    var theme = q.theme || get('hk-theme');
+    if (theme !== 'dark' && theme !== 'light') theme = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var lang = q.lang || get('hk-lang');
+    d.setAttribute('data-design', design);
+    d.setAttribute('data-theme', theme);
+    d.lang = lang === 'en' ? 'en' : 'ko';
+    d.classList.add('is-booting');
+    setTimeout(function () { d.classList.remove('is-booting'); }, 4000); // safety net if site.js fails
+    // classic.css is linked above; other drafts (css/designs/*.css) load only when chosen.
+    var font = (c.fonts || {})[design];
+    if (design !== 'classic') document.write('<link rel="stylesheet" href="css/designs/' + design + '.css">' +
+      (font ? '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="' + font + '" media="print" onload="this.media=\'all\'">' : ''));
+  })();
+</script>
+<link rel="preload" as="image" href="assets/profile/photo-320.webp" imagesrcset="assets/profile/photo-320.webp 320w, assets/profile/photo-640.webp 640w" imagesizes="(max-width: 400px) 80px, (max-width: 960px) 96px, 168px" media="(min-width: 961px)" fetchpriority="high">
+<script defer src="js/data/profile.js"></script>
+<script defer src="js/data/projects.js"></script>
+<script defer src="js/site.js"></script>
+</head>
+<body data-page="about">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="프로필"></aside>
+  <div class="content">
+    <header class="topnav" id="topnav"></header>
+    <main id="main" tabindex="-1">
+      <noscript>
+        <div class="noscript">
+          <h1>김현섭 · 백엔드 · DevOps 개발자</h1>
+          <p>Java·Spring Boot 백엔드와 GitHub Actions·Docker·AWS 배포를 다룹니다. 이 페이지를 모두 보려면 JavaScript를 켜 주세요.</p>
+          <p>Hyunseop Kim — Backend &amp; DevOps developer (Java, Spring Boot, AWS). Please enable JavaScript to view this site.</p>
+          <p><a href="https://github.com/hyunseop827">GitHub</a> · <a href="https://www.linkedin.com/in/hyunseopkim827/">LinkedIn</a> · <a href="mailto:gustjq2580@gmail.com">gustjq2580@gmail.com</a></p>
+        </div>
+      </noscript>
+    </main>
+    <footer class="site-footer" id="footer"></footer>
+  </div>
+</div>
+</body>
+</html>

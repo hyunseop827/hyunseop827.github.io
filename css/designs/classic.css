@@ -1,0 +1,403 @@
+/* ==========================================================================
+   Design A — Classic (기본형 · "무난한 거")
+   --------------------------------------------------------------------------
+   Direction: the calm, conventional portfolio a recruiter trusts at a glance.
+   Neutral off-white paper, one steady blue, Pretendard throughout, soft cards
+   and hairline rules. Nothing decorative competes with the content; every
+   refinement here is about rhythm, hierarchy and legibility:
+     - one heading scale (h1 34 · h2 22 · side/h3 17), balanced headline
+       wrapping, Korean-aware letter-spacing and line-height
+     - a slightly more generous vertical rhythm between sections
+     - muted/secondary tones tuned so small text stays WCAG AA on every surface
+     - a softer, less glaring dark theme (filled mid-blue primary button,
+       dimmed photo and logos, lifted card surfaces)
+     - tidy details: nav aligned to the content column, calm 2 × 2 meta grids,
+       label-left meta rows on phones, legible video label, timeline dates,
+       related-project links, mobile profile card, résumé paper finish
+   The base look lives in css/style.css; this file loads after it. Everything
+   below is scoped to :root[data-design="classic"] so the other drafts are
+   unaffected. These selectors are more specific than the base ones, so a
+   value set here also wins inside the base's media queries — where the base
+   changes a property that classic also sets, the phone value is restated in
+   the responsive block at the bottom.
+   ========================================================================== */
+
+/* ---------- Tokens ---------- */
+/* Classic-only helper tokens (safe in print: light values by default). */
+:root[data-design="classic"] {
+  --c-btn-bg: #2a57c0;
+  --c-btn-bg-hover: #1f479f;
+  --c-btn-fg: #ffffff;
+  --c-selection: rgba(42, 87, 192, .16);
+  --c-paper-shadow: 0 1px 2px rgba(20, 24, 32, .04), 0 10px 30px rgba(20, 24, 32, .06);
+  --c-photo-shadow: 0 1px 2px rgba(20, 24, 32, .06), 0 6px 18px rgba(20, 24, 32, .06);
+  --c-rule: #1a1c20;
+  --c-hairline: #ecece8;
+}
+
+/* Palette overrides are screen-only so the base print palette stays in charge on paper. */
+@media screen {
+  :root[data-design="classic"] {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface-2: #f1f1ee;
+    --text: #1a1c20;
+    --text-2: #454a52;
+    --muted: #676c75;          /* 4.66:1 on --surface-2, 4.92:1 on --bg */
+    --line: #e4e4e0;
+    --line-strong: #d2d3ce;
+    --accent: #2a57c0;
+    --accent-hover: #1f479f;
+    --accent-soft: #eaf0fb;
+    --on-accent: #ffffff;
+    --focus: #2a57c0;
+    --shadow: 0 1px 2px rgba(20, 24, 32, .04), 0 2px 8px rgba(20, 24, 32, .035);
+    --shadow-hover: 0 2px 4px rgba(20, 24, 32, .05), 0 10px 28px rgba(20, 24, 32, .08);
+    --photo-bg: #ffffff;
+  }
+
+  :root[data-design="classic"][data-theme="dark"] {
+    --bg: #101214;
+    --surface: #16191d;
+    --surface-2: #1c2025;
+    --text: #e6e8eb;
+    --text-2: #b8bec6;
+    --muted: #8e959e;          /* 5.41:1 on --surface-2 */
+    --line: #262a30;
+    --line-strong: #363c44;
+    --accent: #8aa9f8;         /* 8.1:1 on --bg — links, labels */
+    --accent-hover: #a9c0fb;
+    --accent-soft: rgba(138, 169, 248, .13);
+    --on-accent: #101214;
+    --focus: #8aa9f8;
+    --shadow: none;
+    --shadow-hover: 0 10px 28px rgba(0, 0, 0, .38);
+    --photo-bg: #e9e9e6;
+
+    --c-btn-bg: #3b64d0;       /* white label 5.4:1 */
+    --c-btn-bg-hover: #3358bd;
+    --c-btn-fg: #ffffff;
+    --c-selection: rgba(138, 169, 248, .28);
+    --c-paper-shadow: none;
+    --c-photo-shadow: none;
+    --c-rule: #5a616b;
+    --c-hairline: #22262b;
+  }
+}
+
+/* ---------- Base type ---------- */
+:root[data-design="classic"] ::selection { background: var(--c-selection); }
+:root[data-design="classic"] body { text-rendering: optimizeLegibility; }
+:root[data-design="classic"] :is(h1, h2) { text-wrap: balance; }
+/* Longer h3 titles (timeline, résumé) break oddly when balanced; just avoid orphans. */
+:root[data-design="classic"] h3 { text-wrap: pretty; }
+/* Orphan control for running copy and leads. (Balancing the leads was tried: it pulls every
+   line of the six-line About lead in to ~75%, and gives two-line leads the same split as
+   `pretty`.) The short project subtitle beside the h1 is balanced like a heading. */
+:root[data-design="classic"] :is(.hero-intro, .lead, .group-head p, .prose p, .tl-summary, .card-tagline, .paper-summary, .bullets li, .value p) { text-wrap: pretty; }
+:root[data-design="classic"] .detail-tagline { text-wrap: balance; }
+:root[data-design="classic"] :is(.card-meta, .tl-when, .r-when, .count) { font-variant-numeric: tabular-nums; }
+
+/* English reads a touch tighter than Korean. */
+:root[data-design="classic"][lang="en"] :is(.prose p, .story-item .prose p, .detail-section .prose p) { line-height: 1.75; }
+:root[data-design="classic"][lang="en"] .hero .hero-intro { line-height: 1.72; }
+
+/* ---------- Top navigation ---------- */
+/* Desktop: pull the row back by the link padding so the first label sits on the
+   content column (h1, eyebrow, hairline); the hover pill hangs into the gutter. */
+@media (min-width: 961px) {
+  :root[data-design="classic"] .primary-nav { margin-left: -12px; }
+}
+
+/* ---------- Sidebar ---------- */
+:root[data-design="classic"] .profile-photo { box-shadow: var(--c-photo-shadow); }
+:root[data-design="classic"][data-theme="dark"] .profile-photo { border-color: var(--line-strong); }
+@media screen {
+  :root[data-design="classic"][data-theme="dark"] .profile-photo img,
+  :root[data-design="classic"][data-theme="dark"] .brand img { filter: brightness(.93); }
+}
+:root[data-design="classic"] .profile-name { letter-spacing: -0.025em; }
+:root[data-design="classic"][lang="en"] .profile-name { letter-spacing: -0.02em; }
+:root[data-design="classic"] .profile-name-sub { margin-top: 3px; font-size: 13.5px; }
+:root[data-design="classic"] .profile-meta { gap: 9px; }
+:root[data-design="classic"] .profile-link .icon { transition: color .15s; }
+:root[data-design="classic"] .profile-link:hover .icon { color: var(--text-2); }
+
+/* ---------- Buttons, links, chips ---------- */
+:root[data-design="classic"] .btn { transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s; }
+:root[data-design="classic"] .btn:not(.btn-primary):hover { border-color: var(--line-strong); background: var(--surface-2); }
+:root[data-design="classic"] .btn.btn-primary { background: var(--c-btn-bg); border-color: var(--c-btn-bg); color: var(--c-btn-fg); box-shadow: 0 1px 2px rgba(20, 24, 32, .08); }
+:root[data-design="classic"] .btn.btn-primary:hover { background: var(--c-btn-bg-hover); border-color: var(--c-btn-bg-hover); }
+:root[data-design="classic"][data-theme="dark"] .btn.btn-primary { box-shadow: none; }
+/* Text links underline their label (the arrow icon is an svg and stays clean). */
+:root[data-design="classic"] :is(.text-link, .tl-org a):hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* ---------- Page head & sections ---------- */
+:root[data-design="classic"] .eyebrow { letter-spacing: .005em; }
+:root[data-design="classic"][lang="en"] .eyebrow { letter-spacing: .01em; }
+:root[data-design="classic"] .page-head { margin-bottom: 44px; }
+:root[data-design="classic"] .page-head h1 { line-height: 1.28; letter-spacing: -0.03em; }
+:root[data-design="classic"][lang="en"] .page-head h1 { letter-spacing: -0.025em; }
+/* The eyebrow repeats the title on these pages ("프로젝트 / 프로젝트"), so drop the echo. */
+:root[data-design="classic"] .page-head:is([data-slug="about"], [data-slug="projects"], [data-slug="experience"]) .eyebrow { display: none; }
+
+:root[data-design="classic"] .section { margin-top: 72px; }
+:root[data-design="classic"] .section:first-child { margin-top: 0; }
+:root[data-design="classic"] .section-head { margin-bottom: 22px; }
+/* One h2 size across the site: section, project group, detail section, contact card. */
+:root[data-design="classic"] :is(.section-head h2, .group-head h2, .detail-section > h2, .contact-card h2) { font-size: 22px; letter-spacing: -0.025em; }
+:root[data-design="classic"][lang="en"] :is(.section-head h2, .group-head h2, .detail-section > h2, .contact-card h2) { letter-spacing: -0.018em; }
+:root[data-design="classic"] .subhead { margin: 30px 0 14px; }
+:root[data-design="classic"] .subhead:first-of-type { margin-top: 0; }
+
+/* ---------- Home ---------- */
+:root[data-design="classic"] .hero h1 { font-size: 34px; line-height: 1.3; letter-spacing: -0.03em; max-width: 700px; }
+:root[data-design="classic"][lang="en"] .hero h1 { letter-spacing: -0.026em; line-height: 1.24; }
+:root[data-design="classic"] .hero .hero-intro { margin-top: 18px; max-width: 660px; }
+
+
+:root[data-design="classic"] .contact-card { padding: 28px 30px; }
+
+/* ---------- Project cards ---------- */
+:root[data-design="classic"] .project-card:hover { transform: translateY(-1px); }
+:root[data-design="classic"] .project-card:focus-within { border-color: var(--line); }
+:root[data-design="classic"] .project-card h3 { font-size: 17px; line-height: 1.35; }
+:root[data-design="classic"] .project-card .card-tagline { margin-top: 4px; }
+:root[data-design="classic"] .project-mark.is-monogram { font-weight: 700; letter-spacing: -0.01em; }
+:root[data-design="classic"][data-theme="dark"] .project-mark.is-monogram { border-color: rgba(138, 169, 248, .18); }
+/* Logos on a white square (ERSync, 오늘의 빵) otherwise become the brightest thing on a dark
+   card; dim them a touch. Dark app icons (Menu Pulse) get a hairline glow tracing their shape. */
+@media screen {
+  :root[data-design="classic"][data-theme="dark"] .project-mark:not(.is-monogram) img { filter: brightness(.88) drop-shadow(0 0 .5px rgba(255, 255, 255, .45)) drop-shadow(0 0 1px rgba(255, 255, 255, .12)); }
+}
+/* Ready for a per-project `has-tile` flag (white-background logos): a hairline tile in light mode. */
+:root[data-design="classic"] .project-mark.has-tile { border: 1px solid var(--line); }
+
+/* Projects tabs */
+:root[data-design="classic"] .tabs { margin-bottom: 40px; }
+:root[data-design="classic"] .tab[aria-current="true"] .count { background: var(--accent-soft); color: var(--accent); }
+/* Like the nav: the first tab label starts on the content column, not 14px in. The three
+   tabs never need to scroll at this width, so the row stops clipping and the focus ring
+   is drawn outside the tab (an inset ring would sit on the first label). */
+@media (min-width: 721px) {
+  :root[data-design="classic"] .tabs { overflow: visible; }
+  :root[data-design="classic"] .tabs > .tab:first-child { padding-left: 0; }
+  :root[data-design="classic"] .tabs > .tab:first-child[aria-current="true"]::after { left: 0; }
+  :root[data-design="classic"] .tabs > .tab:focus-visible { outline-offset: 2px; }
+  /* The first tab has no left padding: draw its ring with the same breathing room as the others. */
+  :root[data-design="classic"] .tabs > .tab:first-child:focus-visible { outline: none; }
+  :root[data-design="classic"] .tabs > .tab:first-child:focus-visible::before { content: ""; position: absolute; inset: -2px -2px -2px -12px; border: 2px solid var(--focus); border-radius: 4px; pointer-events: none; }
+}
+:root[data-design="classic"] .group-head { margin-bottom: 20px; }
+/* Gap only when the group above is visible, so the 팀 and 개인 tabs start at the same height. */
+:root[data-design="classic"] .project-group:not([hidden]) + .project-group { margin-top: 60px; }
+
+/* ---------- Project detail ---------- */
+:root[data-design="classic"] .breadcrumb { margin-bottom: 30px; }
+:root[data-design="classic"] .breadcrumb a { transition: color .15s; }
+:root[data-design="classic"] .detail-head h1 { line-height: 1.24; letter-spacing: -0.03em; }
+:root[data-design="classic"][lang="en"] .detail-head h1 { letter-spacing: -0.025em; }
+:root[data-design="classic"] .detail-head .detail-tagline { margin-top: 8px; }
+/* The base draws the cell dividers (box-shadow hairlines) — classic only pads and lifts the card. */
+:root[data-design="classic"] .detail-meta { box-shadow: var(--shadow); }
+:root[data-design="classic"] .detail-meta > div { padding: 15px 18px; }
+:root[data-design="classic"] .detail-meta dd { text-wrap: pretty; }
+/* Wide layouts: size the four project facts to their content, so a short period or role
+   gives its room to a long team line ("4명 · 백엔드 2명 · 웹 프론트엔드 1명 …") instead of
+   every cell getting the same ~170px. Implicit columns, so three facts work too. */
+@media (min-width: 1080px) {
+  :root[data-design="classic"] .detail-meta { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: auto; }
+}
+:root[data-design="classic"] .two-col { gap: 44px; }
+:root[data-design="classic"] .stack-table > div { padding: 13px 0; }
+:root[data-design="classic"] .stack-table dt { color: var(--text-2); }
+
+:root[data-design="classic"] .shot button:hover { border-color: var(--line-strong); box-shadow: var(--shadow); }
+:root[data-design="classic"] .gallery { gap: 16px; }
+:root[data-design="classic"] .gallery.is-phones { gap: 14px; }
+:root[data-design="classic"] .gallery.is-phones .shot button { padding: 10px; }
+:root[data-design="classic"] .gallery.is-phones .shot img { border-radius: 8px; }
+/* A dark-mode app screenshot (Zalpha "다크 모드 메인 화면") otherwise melts into its dark frame. */
+@media screen {
+  :root[data-design="classic"][data-theme="dark"] .gallery.is-phones .shot img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .09); }
+}
+
+:root[data-design="classic"] .code-sample pre { line-height: 1.7; }
+:root[data-design="classic"][data-theme="dark"] .code-sample pre { background: #13161a; color: var(--text-2); }
+
+/* Video poster: the label sits on a solid pill so it reads over light or busy thumbnails. */
+:root[data-design="classic"] .video-frame { box-shadow: var(--shadow); }
+:root[data-design="classic"] .video-play { text-shadow: none; }
+:root[data-design="classic"] .video-play .play-circle { background: rgba(12, 14, 16, .74); border-color: rgba(255, 255, 255, .5); }
+:root[data-design="classic"] .video-play:hover .play-circle { background: rgba(12, 14, 16, .88); }
+:root[data-design="classic"] .video-play > span:last-child { padding: 5px 12px; border-radius: 999px; background: rgba(12, 14, 16, .74); line-height: 1.5; }
+/* The frame clips overflow, which hides an outside focus ring on the poster button; ring the frame instead. */
+:root[data-design="classic"] .video-frame > :is(button, a):focus-visible { outline: none; }
+:root[data-design="classic"] .video-frame:has(> :is(button, a):focus-visible) { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+:root[data-design="classic"] .pager a { padding: 15px 18px; transition: border-color .15s, box-shadow .15s; }
+:root[data-design="classic"] .pager a:hover { border-color: var(--line-strong); box-shadow: var(--shadow-hover); }
+:root[data-design="classic"] .pager a:hover small { color: var(--accent); }
+:root[data-design="classic"] .pager small { transition: color .15s; }
+
+/* ---------- About ---------- */
+:root[data-design="classic"] .values { gap: 16px; }
+:root[data-design="classic"] .value { padding: 22px; }
+:root[data-design="classic"] .value h3 { margin-top: 10px; font-size: 17px; }
+:root[data-design="classic"] .story-item { padding: 30px 0; }
+:root[data-design="classic"] .story-item h2 { font-size: 17px; letter-spacing: -0.02em; }
+
+/* ---------- Timeline ---------- */
+/* Date on its own line, badge underneath — consistent whether the date is short or long. */
+:root[data-design="classic"] .tl-when { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+:root[data-design="classic"] .tl-when .badge { margin-top: 0; }
+:root[data-design="classic"] .tl-item { grid-template-columns: 184px 1fr; }
+:root[data-design="classic"] .tl-title { font-size: 17px; line-height: 1.4; }
+:root[data-design="classic"] .tl-org { margin-top: 4px; }
+:root[data-design="classic"] .tl-org .sep { color: var(--muted); }
+/* Several related-project links should sit apart, not run together. */
+:root[data-design="classic"] .tl-related { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+
+/* ---------- Resume ---------- */
+:root[data-design="classic"] .resume-toolbar { margin-bottom: 22px; }
+:root[data-design="classic"] .paper { box-shadow: var(--c-paper-shadow); }
+:root[data-design="classic"] .paper-head { border-bottom: 2px solid var(--c-rule); }
+:root[data-design="classic"] .paper-head h1 { letter-spacing: -0.025em; }
+:root[data-design="classic"] .r-section > h2 { margin-bottom: 6px; }
+:root[data-design="classic"] .r-entry { border-bottom: 1px solid var(--c-hairline); }
+:root[data-design="classic"] .r-entry:last-child { border-bottom: 0; }
+:root[data-design="classic"] .r-entry h3 a { transition: color .15s; }
+:root[data-design="classic"] .r-entry h3 a:hover { color: var(--accent); }
+
+/* ---------- Footer ---------- */
+:root[data-design="classic"] .footer-links a { transition: color .15s; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  :root[data-design="classic"] .tl-item { gap: 24px; }
+}
+
+@media (max-width: 1079px) {
+  /* Four facts in a ~650px column wrap into ragged three-line cells; a 2 × 2 grid reads calmly. */
+  :root[data-design="classic"] .detail-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* "How I work": three narrow cards become full-width rows — title left, text right,
+     matching the story list directly below. */
+  :root[data-design="classic"] .values { grid-template-columns: 1fr; gap: 12px; }
+  :root[data-design="classic"] .value { display: grid; grid-template-columns: 175px minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 32px; padding: 20px 24px; }
+  :root[data-design="classic"] .value .value-num { grid-column: 1; grid-row: 1; }
+  :root[data-design="classic"] .value h3 { grid-column: 1; grid-row: 2; margin-top: 6px; }
+  :root[data-design="classic"] .value p { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; font-size: 14.5px; }
+}
+
+@media (min-width: 1181px) {
+  /* Contact card: text left, buttons right in both languages (longer English copy wraps
+     inside its column instead of pushing the buttons onto their own row). Narrower
+     columns stack in both languages, which keeps the text at a readable measure. */
+  :root[data-design="classic"] .contact-card { flex-wrap: nowrap; gap: 28px; }
+  :root[data-design="classic"] .contact-card > div:first-child { flex: 1 1 auto; min-width: 0; max-width: 34rem; }
+  :root[data-design="classic"] .contact-card .btn-row { flex: none; }
+}
+
+@media (min-width: 721px) {
+  /* An odd last card (e.g. the third featured team project) spans the row. */
+  :root[data-design="classic"] .project-grid > .project-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  :root[data-design="classic"] .project-grid > .project-card:last-child:nth-child(odd) .card-tagline { max-width: 60ch; }
+}
+
+@media (max-width: 960px) {
+  /* Home: the sidebar becomes a real profile card above the hero. */
+  :root[data-design="classic"] body[data-page="home"] .sidebar {
+    margin: 20px 24px 0; padding: 20px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  :root[data-design="classic"] body[data-page="home"] .sidebar .profile-photo { box-shadow: none; }
+  /* Keep the copy button next to the address instead of at the card's far edge. */
+  :root[data-design="classic"] body[data-page="home"] .sidebar .email-row { justify-content: flex-start; }
+  :root[data-design="classic"] body[data-page="home"] .sidebar .email-row .profile-link { flex: 0 1 auto; }
+  :root[data-design="classic"] body[data-page="home"] main { padding-top: 32px; }
+}
+
+@media (max-width: 720px) {
+  :root[data-design="classic"] .hero h1 { font-size: 28px; line-height: 1.38; letter-spacing: -0.03em; }
+  :root[data-design="classic"][lang="en"] .hero h1 { line-height: 1.28; letter-spacing: -0.022em; }
+  :root[data-design="classic"] .page-head { margin-bottom: 36px; }
+  :root[data-design="classic"] .section { margin-top: 56px; }
+  :root[data-design="classic"] :is(.section-head h2, .group-head h2, .detail-section > h2, .contact-card h2) { font-size: 20px; }
+  :root[data-design="classic"] .tl-item { grid-template-columns: 1fr; gap: 8px; }
+  :root[data-design="classic"] .tl-when { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; }
+  :root[data-design="classic"] .tl-related { flex-direction: column; gap: 6px; }
+  :root[data-design="classic"] .two-col { gap: 0; }
+  :root[data-design="classic"] .value { display: block; padding: 20px; }
+  :root[data-design="classic"] .value h3 { margin-top: 10px; }
+  :root[data-design="classic"] .value p { margin-top: 8px; font-size: 14px; }
+  :root[data-design="classic"] .story-item { padding: 26px 0; }
+  :root[data-design="classic"] .contact-card { padding: 22px; }
+  :root[data-design="classic"] .contact-card .btn-row { display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 8px; }
+  :root[data-design="classic"] .contact-card .btn-row .btn-primary { grid-column: 1 / -1; }
+  :root[data-design="classic"] .gallery.is-phones { gap: 10px; }
+  :root[data-design="classic"] .gallery.is-phones .shot button { padding: 8px; }
+  :root[data-design="classic"] .detail-meta > div { padding: 14px 16px; }
+  /* Tabs share the row evenly (and still scroll if a narrow phone can't fit them). */
+  :root[data-design="classic"] .tabs { gap: 0; margin-bottom: 32px; }
+  :root[data-design="classic"] .tab { flex: 1 0 auto; justify-content: center; gap: 6px; padding: 0 8px; font-size: 14px; }
+  :root[data-design="classic"] .tab[aria-current="true"]::after { left: 4px; right: 4px; }
+  /* Section head with a trailing link (<h2/><a/>): a long English heading lets the link drop underneath. */
+  :root[data-design="classic"] .section-head:has(> h2 + .text-link) { flex-wrap: wrap; row-gap: 8px; }
+  /* The fixed draft picker would cover the footer's last row (preview only). */
+  :root[data-design="classic"] body:has(.design-picker) .site-footer { padding-bottom: 76px; }
+}
+
+@media (max-width: 560px) {
+  /* Project facts: label-left rows instead of
+     ~145px cells that wrap into 3–4 lines beside one-line neighbours. */
+  :root[data-design="classic"] .detail-meta { grid-template-columns: 1fr; }
+  :root[data-design="classic"] .detail-meta > div { display: grid; grid-template-columns: 5em minmax(0, 1fr); column-gap: 14px; align-items: baseline; padding: 11px 16px; }
+  :root[data-design="classic"][lang="en"] .detail-meta > div { grid-template-columns: 6.25em minmax(0, 1fr); }
+  :root[data-design="classic"] .detail-meta dd { margin-top: 0; }
+}
+
+@media (max-width: 400px) {
+  :root[data-design="classic"] body[data-page="home"] .sidebar { margin: 16px 16px 0; padding: 18px 16px; }
+  /* 10px + the 6px link padding puts the first label on the 16px gutter. */
+  :root[data-design="classic"] .primary-nav { padding: 0 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-design="classic"] .project-card:hover { transform: none; }
+}
+
+/* ---------- Print: plain paper, a slightly tighter résumé rhythm ---------- */
+@media print {
+  :root[data-design="classic"] .paper { box-shadow: none; }
+  :root[data-design="classic"] .paper-head { padding-bottom: 14pt; border-bottom-color: #111; }
+  :root[data-design="classic"] .paper-summary { margin-top: 12pt; line-height: 1.65; }
+  :root[data-design="classic"] .r-section { margin-top: 13pt; }
+  :root[data-design="classic"] .r-section > h2 { padding-bottom: 5pt; margin-bottom: 2pt; }
+  :root[data-design="classic"] .r-entry { padding: 7pt 0 6pt; border-bottom-color: #e6e6e6; }
+  :root[data-design="classic"] .r-entry .bullets, :root[data-design="classic"] .r-entry .r-extra { margin-top: 5pt; }
+  :root[data-design="classic"] .r-entry .bullets { gap: 2.5pt; }
+  :root[data-design="classic"] .r-entry .bullets li { line-height: 1.55; }
+  :root[data-design="classic"][lang="en"] .r-entry .bullets li { line-height: 1.5; }
+  :root[data-design="classic"] :is(.r-grid, .r-list) { padding-top: 8pt; row-gap: 4pt; }
+  :root[data-design="classic"] .detail-meta, :root[data-design="classic"] .video-frame { box-shadow: none; }
+  /* Other pages: the base forces link colour to inherit, which would put dark text on the
+     blue button — print it as a plain outlined button. Keep headings with what follows. */
+  :root[data-design="classic"] .btn.btn-primary { background: none; border-color: #bbb; color: #111; box-shadow: none; }
+  :root[data-design="classic"] :is(.subhead, .section-head, .group-head) { break-after: avoid; page-break-after: avoid; }
+}
+
+/* ---------- Final QA fixes (2026-09-27) ---------- */
+/* Short laptop windows: keep the whole profile column visible without inner scrolling. */
+@media (min-width: 961px) and (max-height: 720px) {
+  :root[data-design="classic"] .sidebar { padding-top: 28px; padding-bottom: 20px; gap: 16px; }
+  :root[data-design="classic"] .sidebar .profile-photo { aspect-ratio: 1 / 1; }
+  :root[data-design="classic"] .sidebar .profile-meta { padding-top: 14px; }
+}
+@media (min-width: 961px) and (max-height: 620px) {
+  :root[data-design="classic"] .sidebar .profile-photo { width: 112px; aspect-ratio: 4 / 5; }
+}
+/* Galleries: equal frames per row so captions line up; an odd last image spans the row. */
+:root[data-design="classic"] .gallery:not(.is-phones):not(.is-single) .shot button { flex: 1; display: flex; align-items: center; justify-content: center; }
+:root[data-design="classic"] .gallery:not(.is-phones):not(.is-single) > .shot:last-child:nth-child(odd) { grid-column: 1 / -1; }
+:root[data-design="classic"] :is(.shot figcaption, .r-grid dd) { text-wrap: pretty; }
