@@ -621,6 +621,10 @@
     document.title = title;
     const desc = document.querySelector('meta[name="description"]');
     if (desc) desc.content = description;
+    [['og:title', title], ['og:description', description]].forEach(([k, v]) => {
+      const m = document.querySelector(`meta[property="${k}"]`);
+      if (m) m.content = v;
+    });
     $('.skip-link') && ($('.skip-link').textContent = t('skip'));
   }
 
